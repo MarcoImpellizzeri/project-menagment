@@ -10,7 +10,7 @@ export default function NoProjectSelected({ onStartAddProject }) {
         className="mx-auto w-16 h-16 object-contain"
       />
       <h2 className="text-xl font-bold text-stone-500 my-4">No Project Selected</h2>
-      <p>Select a project or get started with a new one</p>
+      <p className="text-stone-400 mb-4">Select a project or get started with a new one</p>
       <p className="mt-8">
         <Button children="Create new project" onClick={onStartAddProject}/>
       </p>
