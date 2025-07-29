@@ -10,7 +10,6 @@ function App() {
   })
 
   function handleStartAddProject(){
-    console.log('start add project')
     setProjectState( prevState => {
       return {
         ...prevState,
@@ -19,13 +18,24 @@ function App() {
     })
   }
 
+  function handleAddProject(projectData) {
+    setProjectState(prevState => {
+      const newProject = {
+        ...projectData,
+        id: Math.random()
+      }
+      return {
+        ...prevState,
+        projects: [...prevState.projects, newProject]
+      }
+    })
+  }
+
   let content
 
   if (projectState.selectedProjectId === null) {
-    console.log('primo if')
-    content = <NewProject />
+    content = <NewProject onAdd={handleAddProject}/>
   } else if (projectState.selectedProjectId === undefined) {
-    console.log('secondo if')
     content = <NoProjectSelected onStartAddProject={handleStartAddProject}/>
   }
 
