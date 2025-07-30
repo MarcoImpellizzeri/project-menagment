@@ -2,6 +2,7 @@ import ProjectSidebar from './Components/ProjectSidebar.jsx'
 import NewProject from './Components/NewProject.jsx'
 import NoProjectSelected from './Components/NoProjectSelected.jsx'
 import { useState } from 'react'
+import SelectedProject from './Components/SelectedProject.jsx'
 
 function App() {
   const [projectState, setProjectState] = useState({
@@ -9,11 +10,20 @@ function App() {
     projects: []
   })
 
-  function handleStartAddProject(){
-    setProjectState( prevState => {
+  function handleStartAddProject() {
+    setProjectState(prevState => {
       return {
         ...prevState,
         selectedProjectId: null
+      }
+    })
+  }
+
+  function handleSelectProject(id) {
+    setProjectState(prevState => {
+      return {
+        ...prevState,
+        selectedProjectId: id
       }
     })
   }
@@ -34,7 +44,7 @@ function App() {
   }
 
   function handleDeleteProject() {
-    setProjectState( prevState => {
+    setProjectState(prevState => {
       return {
         ...prevState,
         selectedProjectId: undefined
@@ -42,20 +52,28 @@ function App() {
     })
   }
 
-  let content
+  const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectId)
+  let content = <SelectedProject project={selectedProject}/>
 
   if (projectState.selectedProjectId === null) {
-    content = <NewProject onAdd={handleAddProject} onCancel={handleDeleteProject}/>
+    content = <NewProject
+      onAdd={handleAddProject}
+      onCancel={handleDeleteProject}
+    />
   } else if (projectState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleStartAddProject}/>
+    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectSidebar onStartAddProject={handleStartAddProject} projects={projectState.projects}/>
+      <ProjectSidebar
+        onStartAddProject={handleStartAddProject}
+        projects={projectState.projects}
+        onSelectProject={handleSelectProject}
+      />
       {content}
     </main>
-  );
+  )
 }
 
-export default App;
+export default App
